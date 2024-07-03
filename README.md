@@ -1,6 +1,7 @@
 # environment
 Dev environment: OMZ + powerline10k + other stuff
 
+0. Prepare system
 1. Install ZSH
 2. Install OMZ
 3. Install fonts (need update by manual)
@@ -8,10 +9,15 @@ Dev environment: OMZ + powerline10k + other stuff
 5. install OMZ plugins
 6. fix .zshrc (need update about plugins)
 
+### prepare
+apt update
+apt upgrade
+apt install git vim mc curl wget tmux
+
 ### install ZSH
 ```shell 
 sudo apt install zsh
-chsh -s /bin/zs
+chsh -s /bin/zsh
 ```
 
 ### Install OMZ
