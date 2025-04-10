@@ -94,13 +94,12 @@ command = "echo instance name"
 format = '[ $output ]($style)'
 style = "fg:color_fg0 bg:color_blue"
 
-[hostname]
-ssh_only = false
-format = '[$hostname]($style)'
-style = "fg:color_fg0 bg:color_red"
-aliases = { "monit-deb-12" = " monit server " }
-disabled = false
-
+# [hostname]
+# ssh_only = false
+# format = '[$hostname]($style)'
+# style = "fg:color_fg0 bg:color_blue"
+# aliases = { "DESKTOP-QA4GFPD" = " WSL 2 " }
+# disabled = false
 
 [directory]
 style = "fg:color_fg0 bg:color_yellow"
@@ -190,36 +189,64 @@ format = '[[  $time ](fg:color_fg0 bg:color_bg1)]($style)'
 disabled = false
 min_time = 0
 show_milliseconds = true
-format = '[[ [](fg:color_green bg:color_bg1) $duration ](fg:color_fg0 bg:color_bg1)]($style)'
-style= "bg:color_bg1"
+format = '[[ [](fg:color_green bg:color_bg3) $duration ](fg:color_fg0 bg:color_bg3)]($style)'
+style= "bg:color_bg3"
 
 [status]
 style = 'bg:color_bg1'
-symbol = ' [x](fg:color_red bg:color_bg1) '
-success_symbol = ' [](fg:color_green bg:color_bg1) '
-not_found_symbol = ' [x](fg:color_red bg:color_bg1) '
-sigint_symbol = ' [](fg:color_red bg:color_bg1) '
-format = '[$symbol$common_meaning$signal_name$maybe_int]($style)'
+symbol = ' [x ](fg:color_red bg:color_bg1)'
+success_symbol = ' [ ](fg:color_green bg:color_bg1)'
+not_found_symbol = ' [x ](fg:color_red bg:color_bg1)'
+sigint_symbol = ' [ ](fg:color_red bg:color_bg1)'
+format = '[$symbol$common_meaning$signal_name$maybe_int ]($style)'
 
 map_symbol = true
 disabled = false
 
-[custom.git_server]
-description = "Display symbol for remote Git server"
+[memory_usage]
+disabled = false
+threshold = 15
+format ='$symbol[$ram_pct ram used: $ram ]($style)'
+symbol = '[ 󰓅 ]($style)'
+style = 'fg:color_red bg:color_bg1'
+
+[custom.loadavg_low]
 command = """
-GIT_REMOTE=$(command git ls-remote --get-url 2> /dev/null)
-if [[ "$GIT_REMOTE" =~ "github" ]]; then
-    echo "  $style"
-elif [[ "$GIT_REMOTE" =~ "gitlab" ]]; then
-    echo " $style"
-elif [[ "$GIT_REMOTE" =~ "bitbucket" ]]; then
-    echo "  ($style)"
-else
-    echo " git"
+# Извлекаем первое значение load average из /proc/loadavg
+first_value_min=$(awk '{print $1}' /proc/loadavg | tr ',' '.')
+
+# Значение для сравнения
+threshold_low=1.0
+
+# Используем awk для сравнения чисел с плавающей запятой
+if awk "BEGIN {exit !($first_value_min < $threshold_low)}"; then
+    echo " 󰾆 $first_value_min"
 fi
 """
-when = 'git rev-parse --is-inside-work-tree'
-style = 'fg:color_yellow bg:color_aqua'
+when = ''
+format = '[$output]($style)'
+style = 'fg:color_green bg:color_bg1'
+
+[custom.loadavg_high]
+command = """
+# Извлекаем первую строку из /proc/loadavg
+loadavg_max=$(awk '{print $1, $2, $3}' /proc/loadavg)
+
+# Извлекаем первое значение load average
+first_value_max=$(echo $loadavg_max | awk '{print $1}' | tr ',' '.')
+
+# Преобразуем значение порога
+threshol_max=1.00
+
+# Используем awk для сравнения чисел с плавающей запятой
+if awk "BEGIN {exit !($first_value_max > $ththreshol_maxreshold)}"; then
+    # Если первое значение больше 10, выводим первые три значения
+    echo "$loadavg_max"
+fi
+"""
+when = ''
+format = '[$output]($style)'
+style = 'fg:color_red bg:color_bg1'
 
 [line_break]
 disabled = false
