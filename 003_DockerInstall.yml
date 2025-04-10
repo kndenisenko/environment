@@ -6,9 +6,6 @@
   
   vars:
     ansible_user: zx
-    # ansible_ssh_private_key_file: ~/.ssh/timeweb/timeweb
-    # ansible_host: 194.87.56.159
-    # ansible_ssh_common_args: '-o StrictHostKeyChecking=no'
     username: zx
 
   tasks:

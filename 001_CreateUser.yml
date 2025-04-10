@@ -5,8 +5,6 @@
   
   vars:
     ansible_user: root
-    ansible_ssh_private_key_file: ~/.ssh/timeweb/timeweb
-    ansible_host: 194.87.56.159
     username: zx
 
   vars_prompt:
@@ -21,7 +19,6 @@
     - name: Create user "{{username}}"
       ansible.builtin.user:
         name: "{{username}}"
-        # password : "{{ password | password_hash('sha512') }}"
         password: "{{ new_pass | password_hash('sha512') }}"
         state: present
         create_home: yes
