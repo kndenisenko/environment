@@ -1,0 +1,182 @@
+---
+- name: Install software and copy settings for "{{username}}"
+  hosts: target_server
+  gather_facts: no
+  
+  vars:
+    ansible_user: zx
+    # ansible_ssh_private_key_file: ~/.ssh/timeweb/timeweb
+    # ansible_host: 194.87.56.159
+    ansible_ssh_common_args: '-o StrictHostKeyChecking=no'
+    username: zx
+
+  vars_prompt:
+    - name: "instance_name"
+      prompt: "Enter instance name for this server"
+      private: no
+
+    - name: "git_username"
+      prompt: "Enter name for git"
+      private: no
+
+    - name: "git_email"
+      prompt: "Enter email for git"
+      private: no
+
+  tasks:
+    - name: apt update and basic soft install
+      # apt-get update && apt-get install redis-server
+      apt: # имя модуля Ansible
+        pkg:
+          - mc
+          - htop
+          - make
+          - curl
+          - wget
+          - ncdu
+          - vim
+          - ca-certificates
+          - tmux
+          - git
+          - bat
+          - zsh
+          - zplug
+        update_cache: true
+      become: yes
+      tags: install-base
+
+    - name: Check if oh-my-zsh is already installed
+      ansible.builtin.stat:
+        path: /home/{{username}}/.oh-my-zsh
+      register: omz_installed
+      tags: [install-zsh, install-zsh-shell, install-zsh-plugins, install-zsh-starship]
+
+    - name: Download ohmyzsh
+      ansible.builtin.get_url:
+        url: https://raw.githubusercontent.com/ohmyzsh/ohmyzsh/master/tools/install.sh
+        dest: "/home/{{username}}/install-omz.sh"
+        mode: '0755'
+      when: not omz_installed.stat.exists
+      tags: install-zsh
+
+    - name: Install ohmyzsh
+      ansible.builtin.shell:
+        cmd: "sh /home/{{username}}/install-omz.sh --unattended"
+        chdir: "/home/{{username}}/"
+      when: not omz_installed.stat.exists
+      tags: install-zsh
+
+    - name: Check if oh-my-zsh is installed (after install)
+      ansible.builtin.stat:
+        path: /home/{{username}}/.oh-my-zsh
+      register: omz_installed_after
+      tags: [install-zsh, install-zsh-shell, install-zsh-plugins, install-zsh-starship]
+
+    - name: Change shell to zsh for "{{username}}"
+      ansible.builtin.user:
+        name: "{{username}}"
+        shell: "/usr/bin/zsh"
+      when: omz_installed_after.stat.exists
+      become: yes
+      tags: install-zsh-shell
+
+    - name: Clone zsh-autosuggestions
+      ansible.builtin.git:
+        repo: 'https://github.com/zsh-users/zsh-autosuggestions'
+        dest: "/home/{{username}}/.oh-my-zsh/custom/plugins/zsh-autosuggestions"
+        update: yes
+      when: omz_installed_after.stat.exists
+      tags: install-zsh-plugins
+
+    - name: Clone zsh-syntax-highlighting
+      ansible.builtin.git:
+        repo: 'https://github.com/zsh-users/zsh-syntax-highlighting'
+        dest: "/home/{{username}}/.oh-my-zsh/custom/plugins/zsh-syntax-highlighting"
+        update: yes
+      when: omz_installed_after.stat.exists
+      tags: install-zsh-plugins
+
+    - name: Download Starship
+      ansible.builtin.get_url:
+        url: https://starship.rs/install.sh
+        dest: "/home/{{username}}/install-starship.sh"
+        mode: '0755'
+      when: omz_installed_after.stat.exists
+      tags: install-zsh-starship
+
+    - name: Install Starship
+      ansible.builtin.shell:
+        cmd: "sh /home/{{username}}/install-starship.sh -y"
+        chdir: "/home/{{username}}/"
+      become: true
+      when: omz_installed_after.stat.exists
+      tags: install-zsh-starship
+
+    - name: Create a .config dir
+      ansible.builtin.file:
+        path: /home/{{username}}/.config
+        state: directory
+        owner: "{{username}}"
+        group: "{{username}}"
+        mode: '0755'
+      tags: install-zsh-starship
+
+    - name: Copy encrypted aliases file to the remote server
+      ansible.builtin.copy:
+        src: "{{ playbook_dir }}/secrets/aliases.yml"
+        dest: /home/{{username}}/.zsh_aliases
+        owner: "{{username}}"
+        group: "{{username}}"
+        mode: '644'
+      tags: [copy, copy-aliases]
+
+    - name: copy zshrc
+      ansible.builtin.copy:
+        src: "{{ playbook_dir }}/src/server/.zshrc_server"
+        dest: /home/{{username}}/.zshrc
+        owner: "{{username}}"
+        group: "{{username}}"
+        mode: '644'
+      tags: copy
+
+    # - name: Create a starship dir
+    #   ansible.builtin.file:
+    #     path: /home/{{username}}/.config
+    #     state: directory
+    #     mode: '0755'
+    #   tags: copy
+
+    - name: copy starship settings
+      ansible.builtin.copy:
+        src: "{{ playbook_dir }}/src/server/config_server.toml"
+        dest: /home/{{username}}/.config/starship.toml
+        owner: "{{username}}"
+        group: "{{username}}"
+        mode: '644'
+      tags: copy
+
+    - name: change instance name in starship settings
+      ansible.builtin.replace:
+        path: /home/{{username}}/.config/starship.toml
+        regexp: 'command = "echo instance name"'
+        replace: 'command = "echo {{instance_name}}"'
+      tags: change
+
+    - name: setting up Git username
+      ansible.builtin.shell:
+        cmd: git config --global user.name "{{git_username}}"
+      tags: git-config
+
+    - name: setting up Git email
+      ansible.builtin.shell:
+        cmd: git config --global user.email "{{git_email}}"
+      tags: git-config
+
+    - name: delete unused files
+      ansible.builtin.file:
+        path: "{{ item }}"
+        state: absent
+      loop:
+        - /home/{{username}}/install-omz.sh
+        - /home/{{username}}/install-starship.sh
+      tags: cleaning

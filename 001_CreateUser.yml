@@ -1,0 +1,100 @@
+---
+- name: Create user "{{username}}" and ssh-folders on remote server
+  hosts: target_server
+  gather_facts: no
+  
+  vars:
+    ansible_user: root
+    ansible_ssh_private_key_file: ~/.ssh/timeweb/timeweb
+    ansible_host: 194.87.56.159
+    username: zx
+
+  vars_prompt:
+    - name: "new_pass"
+      prompt: "Enter the new password for {{username}}"
+      private: yes
+
+  vars_files:
+    - secrets/vault.yml
+
+  tasks:
+    - name: Create user "{{username}}"
+      ansible.builtin.user:
+        name: "{{username}}"
+        # password : "{{ password | password_hash('sha512') }}"
+        password: "{{ new_pass | password_hash('sha512') }}"
+        state: present
+        create_home: yes
+        shell: /bin/bash
+      tags: user-create
+
+    - name: Add "{{username}}" to sudo group
+      ansible.builtin.user:
+        name: "{{username}}"
+        groups: sudo
+        append: yes
+      tags: user-sudo
+
+    - name: Create a .ssh dir
+      ansible.builtin.file:
+        path: /home/{{username}}/.ssh
+        state: directory
+        owner: "{{username}}"
+        group: "{{username}}"
+        mode: '0700'
+      tags: prepare-ssh-dir
+
+    - name: Create a .ssh/timeweb dir
+      ansible.builtin.file:
+        path: /home/{{username}}/.ssh/timeweb
+        state: directory
+        owner: "{{username}}"
+        group: "{{username}}"
+        mode: '0700'
+      tags: prepare-ssh-dir
+
+    - name: Add keys to .ssh/authorized_keys
+      ansible.builtin.blockinfile:
+        path: /home/{{username}}/.ssh/authorized_keys
+        owner: "{{username}}"
+        group: "{{username}}"
+        mode: '0600'
+        block: |
+          {{ sshone }}
+          {{ sshsec }}
+        create: yes
+      tags: prepare-ssh-keys
+
+    - name: Add private key to .ssh/timeweb/timeweb
+      ansible.builtin.copy:
+        content: "{{id_rsa_private_key}}"
+        dest: /home/{{username}}/.ssh/timeweb/timeweb
+        owner: "{{username}}"
+        group: "{{username}}"
+        mode: '600'
+      tags: prepare-ssh-keys
+
+    - name: Add public key to .ssh/timeweb/timeweb.pub
+      ansible.builtin.copy:
+        content: "{{id_rsa_public_key}}"
+        dest: /home/{{username}}/.ssh/timeweb/timeweb.pub
+        owner: "{{username}}"
+        group: "{{username}}"
+        mode: '600'
+      tags: prepare-ssh-keys
+
+    - name: copy ssh config
+      ansible.builtin.copy:
+        src: "{{ playbook_dir }}/src/server/ssh_config"
+        dest: /home/{{username}}/.ssh/config 
+        owner: "{{username}}"
+        group: "{{username}}"
+        mode: '600'
+      tags: prepare-ssh-config
+
+    - name: change user name in ssh config
+      ansible.builtin.replace:
+        path: /home/{{username}}/.ssh/config
+        regexp: 'IdentityFile /home/user_name/.ssh/timeweb/timeweb'
+        replace: 'IdentityFile /home/{{username}}/.ssh/timeweb/timeweb'
+      tags: prepare-ssh-config
