@@ -1,1 +1,7 @@
+# common ignore
 .DS_Store
+
+# terraform ignore
+.terraform
+*.auto.tfvars
+*.backup
