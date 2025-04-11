@@ -142,7 +142,7 @@
         owner: "{{username}}"
         group: "{{username}}"
         mode: '644'
-      tags: copy
+      tags: [copy, copy-starship]
 
     - name: change instance name in starship settings
       ansible.builtin.replace:
