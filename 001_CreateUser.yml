@@ -41,6 +41,19 @@
         mode: '0700'
       tags: prepare-ssh-dir
 
+    - name: Add keys to .ssh/authorized_keys
+      ansible.builtin.blockinfile:
+        path: /home/{{username}}/.ssh/authorized_keys
+        owner: "{{username}}"
+        group: "{{username}}"
+        mode: '0600'
+        block: |
+          {{kd_pub}}
+          {{timeweb_pub}}
+          {{git_pub}}
+        create: yes
+      tags: prepare-ssh-keys
+
     - name: Create a .ssh/timeweb dir
       ansible.builtin.file:
         path: /home/{{username}}/.ssh/timeweb
@@ -50,35 +63,51 @@
         mode: '0700'
       tags: prepare-ssh-dir
 
-    - name: Add keys to .ssh/authorized_keys
-      ansible.builtin.blockinfile:
-        path: /home/{{username}}/.ssh/authorized_keys
-        owner: "{{username}}"
-        group: "{{username}}"
-        mode: '0600'
-        block: |
-          {{ sshone }}
-          {{ sshsec }}
-        create: yes
-      tags: prepare-ssh-keys
-
     - name: Add private key to .ssh/timeweb/timeweb
       ansible.builtin.copy:
-        content: "{{id_rsa_private_key}}"
+        content: "{{timeweb_private}}"
         dest: /home/{{username}}/.ssh/timeweb/timeweb
         owner: "{{username}}"
         group: "{{username}}"
         mode: '600'
-      tags: prepare-ssh-keys
+      tags: prepare-ssh-keys-timeweb
 
     - name: Add public key to .ssh/timeweb/timeweb.pub
       ansible.builtin.copy:
-        content: "{{id_rsa_public_key}}"
+        content: "{{timeweb_pub}}"
         dest: /home/{{username}}/.ssh/timeweb/timeweb.pub
         owner: "{{username}}"
         group: "{{username}}"
         mode: '600'
-      tags: prepare-ssh-keys
+      tags: prepare-ssh-keys-timeweb
+
+    - name: Create a .ssh/github dir
+      ansible.builtin.file:
+        path: /home/{{username}}/.ssh/github
+        state: directory
+        owner: "{{username}}"
+        group: "{{username}}"
+        mode: '0700'
+      tags: prepare-ssh-dir
+
+    - name: Add private key to .ssh/github/github
+      ansible.builtin.copy:
+        content: "{{git_private}}"
+        dest: /home/{{username}}/.ssh/github/github
+        owner: "{{username}}"
+        group: "{{username}}"
+        mode: '600'
+      tags: prepare-ssh-keys-github
+
+    - name: Add public key to .ssh/github/github.pub
+      ansible.builtin.copy:
+        content: "{{git_pub}}"
+        dest: /home/{{username}}/.ssh/github/github.pub
+        owner: "{{username}}"
+        group: "{{username}}"
+        mode: '600'
+      tags: prepare-ssh-keys-github
+
 
     - name: copy ssh config
       ansible.builtin.copy:

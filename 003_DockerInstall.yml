@@ -40,12 +40,6 @@
       become: yes
       tags: docker-addrepo
 
-    - name: Update apt cache
-      apt:
-        update_cache: yes
-      become: yes
-      tags: docker-addrepo
-
     - name: install docker
       apt:
         name: "{{item}}"

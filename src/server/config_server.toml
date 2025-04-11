@@ -94,13 +94,6 @@ command = "echo instance name"
 format = '[ $output ]($style)'
 style = "fg:color_fg0 bg:color_blue"
 
-# [hostname]
-# ssh_only = false
-# format = '[$hostname]($style)'
-# style = "fg:color_fg0 bg:color_blue"
-# aliases = { "DESKTOP-QA4GFPD" = " WSL 2 " }
-# disabled = false
-
 [directory]
 style = "fg:color_fg0 bg:color_yellow"
 format = "[ $path ]($style)"
