@@ -1,1 +1,83 @@
-#
+# Path to your Oh My Zsh installation.
+export ZSH="$HOME/.oh-my-zsh"
+
+
+# See https://github.com/ohmyzsh/ohmyzsh/wiki/Themes
+ZSH_THEME=""
+
+
+plugins=(
+git
+zsh-syntax-highlighting
+zsh-autosuggestions
+)
+
+source $ZSH/oh-my-zsh.sh
+
+export PATH=$PATH:~/.bin
+
+. ~/.zsh_aliases
+
+eval "$(starship init zsh)"
+
+
+export NVM_DIR="$HOME/.nvm"
+[ -s "$NVM_DIR/nvm.sh" ] && \. "$NVM_DIR/nvm.sh"  # This loads nvm
+[ -s "$NVM_DIR/bash_completion" ] && \. "$NVM_DIR/bash_completion"  # This loads nvm bash_completion
+
+# place this after nvm initialization!
+autoload -U add-zsh-hook
+
+# Auto-load and install node with nvm
+load-nvmrc() {
+  local nvmrc_path
+  nvmrc_path="$(nvm_find_nvmrc)"
+
+  if [ -n "$nvmrc_path" ]; then
+    local nvmrc_node_version
+    nvmrc_node_version=$(nvm version "$(cat "${nvmrc_path}")")
+
+    if [ "$nvmrc_node_version" = "N/A" ]; then
+      nvm install
+    elif [ "$nvmrc_node_version" != "$(nvm version)" ]; then
+      nvm use
+    fi
+  elif [ -n "$(PWD=$OLDPWD nvm_find_nvmrc)" ] && [ "$(nvm version)" != "$(nvm version default)" ]; then
+    echo "Reverting to nvm default version"
+    nvm use default
+  fi
+}
+
+add-zsh-hook chpwd load-nvmrc
+load-nvmrc
+
+# Transient prompt for zsh & Starship
+zle-line-init() {
+      emulate -L zsh
+
+      [[ $CONTEXT == start ]] || return 0
+
+      while true; do
+        zle .recursive-edit
+        local -i ret=$?
+        [[ $ret == 0 && $KEYS == $'\4' ]] || break
+        [[ -o ignore_eof ]] || exit 0
+      done
+
+      local saved_prompt=$PROMPT
+      local saved_rprompt=$RPROMPT
+      PROMPT=' '
+      RPROMPT=''
+      zle .reset-prompt
+      PROMPT=$saved_prompt
+      RPROMPT=$saved_rprompt
+
+      if (( ret )); then
+        zle .send-break
+      else
+        zle .accept-line
+      fi
+      return ret
+    }
+
+    zle -N zle-line-init

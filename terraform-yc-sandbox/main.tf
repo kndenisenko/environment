@@ -8,9 +8,11 @@ terraform {
 }
 
 // Terraform должен знать ключ, для выполнения команд по API
-
 // Определение переменной, которую нужно будет задать
-variable "yc_token" {}
+variable "yc_token" {
+  type        = string
+  sensitive   = true
+}
 
 provider "yandex" {
   zone = "ru-central1-a"
@@ -22,8 +24,10 @@ resource "yandex_compute_instance" "default" {
   platform_id = "standard-v1"
   zone        = "ru-central1-a"
   folder_id   = "b1gll1lmdjke78pqbcoq"
+  allow_stopping_for_update = true
 
   resources {
+    core_fraction = 20
     cores  = 2
     memory = 2
   }
@@ -37,7 +41,8 @@ resource "yandex_compute_instance" "default" {
   }
 
   metadata = {
-    ssh-keys = "ubuntu:${file("~/.ssh/id_rsa.pub")}"
+    ssh-keys = "user:${file("~/.ssh/id_rsa.pub")}"
+    nat = true
   }
 }
 
@@ -52,12 +57,23 @@ resource "yandex_vpc_subnet" "default" {
   folder_id      = "b1gll1lmdjke78pqbcoq"
 }
 
+# должен быть айпишником
+# resource "yandex_vpc_address" "addr" {
+#   name = "vm-adress"
+#   folder_id = "b1gll1lmdjke78pqbcoq"
+#   external_ipv4_address {
+#     zone_id = "ru-central1-a"
+#   }
+# }
+
 resource "yandex_compute_disk" "default" {
   name     = "disk-name"
   size     = 30
   type     = "network-ssd"
   zone     = "ru-central1-a"
-  image_id = "fd83s8u085j3mq231ago" // идентификатор образа Ubuntu
+  # Debian - fd81u2jojucn3njlptqo
+  # Ubuntu - fd81r1dpns2m4mgssm0q
+  image_id = "fd81u2jojucn3njlptqo" // идентификатор образа ОС
   folder_id = "b1gll1lmdjke78pqbcoq"
 
   labels = {

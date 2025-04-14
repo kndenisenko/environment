@@ -3,5 +3,6 @@
 
 # terraform ignore
 .terraform
+secret.*
 *.auto.tfvars
 *.backup
