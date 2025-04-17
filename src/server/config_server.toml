@@ -23,18 +23,18 @@ $java\
 $kotlin\
 $haskell\
 $python\
-[](fg:color_blue bg:color_bg3)\
+[](fg:color_blue bg:color_bg2)\
 $docker_context\
 $conda\
-[](fg:color_bg3 bg:color_bg1)\
+[](fg:color_bg2 bg:color_bg1)\
 $time\
 [ ](fg:color_bg1)\
 
 [](color_bg1)\
 $status\
-[](fg:color_bg1 bg:color_bg3)\
+[](fg:color_bg1 bg:color_bg2)\
 $cmd_duration\
-[ ](fg:color_bg3 bg:color_bg1)\
+[ ](fg:color_bg2 bg:color_bg1)\
 ${custom.loadavg_low}\
 ${custom.loadavg_high}\
 [ ](fg:color_bg1)\
@@ -45,7 +45,7 @@ palette = 'gruvbox_dark'
 [palettes.gruvbox_dark]
 color_fg0 = '#fbf1c7'
 color_bg1 = '#3c3836'
-color_bg3 = '#665c54'
+color_bg2 = '#665c54'
 color_blue = '#1b83b0'
 color_aqua = '#689d6a'
 color_green = '#6fa246'
@@ -164,12 +164,12 @@ format = '[[ $symbol( $version) ](fg:color_fg0 bg:color_blue)]($style)'
 
 [docker_context]
 symbol = ""
-style = "bg:color_bg3"
-format = '[[ $symbol( $context) ](fg:#83a598 bg:color_bg3)]($style)'
+style = "bg:color_bg2"
+format = '[[ $symbol( $context) ](fg:#83a598 bg:color_bg2)]($style)'
 
 [conda]
-style = "bg:color_bg3"
-format = '[[ $symbol( $environment) ](fg:#83a598 bg:color_bg3)]($style)'
+style = "bg:color_bg2"
+format = '[[ $symbol( $environment) ](fg:#83a598 bg:color_bg2)]($style)'
 
 [time]
 disabled = false
@@ -182,8 +182,8 @@ format = '[[  $time ](fg:color_fg0 bg:color_bg1)]($style)'
 disabled = false
 min_time = 0
 show_milliseconds = true
-format = '[[ [](fg:color_green bg:color_bg3) $duration ](fg:color_fg0 bg:color_bg3)]($style)'
-style= "bg:color_bg3"
+format = '[[ [](fg:color_green bg:color_bg2) $duration ](fg:color_fg0 bg:color_bg2)]($style)'
+style= "bg:color_bg2"
 
 [status]
 style = 'bg:color_bg1'
