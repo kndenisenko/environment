@@ -205,13 +205,13 @@ style = 'fg:color_red bg:color_bg1'
 
 [custom.loadavg_low]
 command = """
-# Извлекаем первое значение load average из /proc/loadavg
+# Get first LA from /proc/loadavg
 first_value_min=$(awk '{print $1}' /proc/loadavg | tr ',' '.')
 
-# Значение для сравнения
+# Low threshold
 threshold_low=1.0
 
-# Используем awk для сравнения чисел с плавающей запятой
+# Compare with awk
 if awk "BEGIN {exit !($first_value_min < $threshold_low)}"; then
     echo " 󰾆 $first_value_min"
 fi
@@ -222,18 +222,18 @@ style = 'fg:color_green bg:color_bg1'
 
 [custom.loadavg_high]
 command = """
-# Извлекаем первую строку из /proc/loadavg
+# Get ALL LA /proc/loadavg
 loadavg_max=$(awk '{print $1, $2, $3}' /proc/loadavg)
 
-# Извлекаем первое значение load average
+# Get first LA from loadavg_max
 first_value_max=$(echo $loadavg_max | awk '{print $1}' | tr ',' '.')
 
-# Преобразуем значение порога
+# Max threshold
 threshol_max=1.00
 
-# Используем awk для сравнения чисел с плавающей запятой
+# Compare with awk
 if awk "BEGIN {exit !($first_value_max > $ththreshol_maxreshold)}"; then
-    # Если первое значение больше 10, выводим первые три значения
+    # If first param more than Max threshold -> print all LA params
     echo "$loadavg_max"
 fi
 """

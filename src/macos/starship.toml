@@ -6,9 +6,9 @@ format = """
 [](color_blue)\
 $os\
 ${custom.instance}\
-[](bg:color_orange fg:color_blue)\
+[](bg:color_dark_red fg:color_blue)\
 $username\
-[](bg:color_yellow fg:color_orange)\
+[](bg:color_yellow fg:color_dark_red)\
 $directory\
 [](fg:color_yellow bg:color_aqua)\
 $git_branch\
@@ -43,20 +43,34 @@ $line_break$character"""
 palette = 'gruvbox_dark'
 
 [palettes.gruvbox_dark]
-color_fg0 = '#fbf1c7'
+color_text = '#fbf1c7'
 color_bg1 = '#3c3836'
 color_bg2 = '#665c54'
-color_blue = '#1b83b0'
+color_blue = '#187498'
 color_aqua = '#689d6a'
-color_green = '#6fa246'
-color_orange = '#d65d0e'
-color_purple = '#b16286'
-color_red = '#cc241d'
-color_yellow = '#d79921'
+color_green = '#36AE7C'
+color_dark_red = '#bf4b2e'
+color_purple = '#C06C84'
+color_red = '#EB5353'
+color_yellow = '#FF9B17'
+
+
+
+# [palettes.gruvbox_dark]
+# color_text = '#fbf1c7'
+# color_bg1 = '#3c3836'
+# color_bg2 = '#665c54'
+# color_blue = '#1b83b0'
+# color_aqua = '#689d6a'
+# color_green = '#6fa246'
+# color_dark_red = '#d65d0e'
+# color_purple = '#b16286'
+# color_red = '#cc241d'
+# color_yellow = '#d79921'
 
 [os]
 disabled = false
-style = "bg:color_blue fg:color_fg0"
+style = "bg:color_blue fg:color_text"
 
 [os.symbols]
 Windows = "󰍲"
@@ -83,8 +97,8 @@ Pop = ""
 
 [username]
 show_always = true
-style_user = "bg:color_orange fg:color_fg0"
-style_root = "bg:color_orange fg:color_fg0"
+style_user = "bg:color_dark_red fg:color_text"
+style_root = "bg:color_dark_red fg:color_text"
 format = '[ $user ]($style)'
 
 [custom.instance]
@@ -92,18 +106,18 @@ disabled = false
 when = ''
 command = "echo MacBook Pro M1"
 format = '[ $output ]($style)'
-style = "fg:color_fg0 bg:color_blue"
+style = "fg:color_text bg:color_blue"
 
 [hostname]
 ssh_only = false
 format = '[$hostname]($style)'
-style = "fg:color_fg0 bg:color_blue"
+style = "fg:color_text bg:color_blue"
 aliases = { "Xcodes-MacBook-Pro" = " MacBook Pro M1 " }
 disabled = false
 
 
 [directory]
-style = "fg:color_fg0 bg:color_yellow"
+style = "fg:color_text bg:color_yellow"
 format = "[ $path ]($style)"
 home_symbol = ''
 truncation_length = 3
@@ -119,56 +133,56 @@ truncation_symbol = "…/"
 [git_branch]
 symbol = ""
 style = "bg:color_aqua"
-format = '[[ $symbol $branch ](fg:color_fg0 bg:color_aqua)]($style)'
+format = '[[ $symbol $branch ](fg:color_text bg:color_aqua)]($style)'
 
 [git_status]
 style = "bg:color_aqua"
-format = '[[($all_status$ahead_behind )](fg:color_fg0 bg:color_aqua)]($style)'
+format = '[[($all_status$ahead_behind )](fg:color_text bg:color_aqua)]($style)'
 
 [nodejs]
 symbol = ""
 style = "bg:color_blue"
-format = '[[ $symbol( $version) ](fg:color_fg0 bg:color_blue)]($style)'
+format = '[[ $symbol( $version) ](fg:color_text bg:color_blue)]($style)'
 
 [c]
 symbol = " "
 style = "bg:color_blue"
-format = '[[ $symbol( $version) ](fg:color_fg0 bg:color_blue)]($style)'
+format = '[[ $symbol( $version) ](fg:color_text bg:color_blue)]($style)'
 
 [rust]
 symbol = ""
 style = "bg:color_blue"
-format = '[[ $symbol( $version) ](fg:color_fg0 bg:color_blue)]($style)'
+format = '[[ $symbol( $version) ](fg:color_text bg:color_blue)]($style)'
 
 [golang]
 symbol = ""
 style = "bg:color_blue"
-format = '[[ $symbol( $version) ](fg:color_fg0 bg:color_blue)]($style)'
+format = '[[ $symbol( $version) ](fg:color_text bg:color_blue)]($style)'
 
 [php]
 symbol = ""
 style = "bg:color_blue"
-format = '[[ $symbol( $version) ](fg:color_fg0 bg:color_blue)]($style)'
+format = '[[ $symbol( $version) ](fg:color_text bg:color_blue)]($style)'
 
 [java]
 symbol = ""
 style = "bg:color_blue"
-format = '[[ $symbol( $version) ](fg:color_fg0 bg:color_blue)]($style)'
+format = '[[ $symbol( $version) ](fg:color_text bg:color_blue)]($style)'
 
 [kotlin]
 symbol = ""
 style = "bg:color_blue"
-format = '[[ $symbol( $version) ](fg:color_fg0 bg:color_blue)]($style)'
+format = '[[ $symbol( $version) ](fg:color_text bg:color_blue)]($style)'
 
 [haskell]
 symbol = ""
 style = "bg:color_blue"
-format = '[[ $symbol( $version) ](fg:color_fg0 bg:color_blue)]($style)'
+format = '[[ $symbol( $version) ](fg:color_text bg:color_blue)]($style)'
 
 [python]
 symbol = ""
-style = "bg:color_blue"
-format = '[[ $symbol( $version)](fg:color_fg0 bg:color_blue)]($style)'
+style = "bg:color_purple"
+format = '[[ $symbol( $version)](fg:color_text bg:color_blue)]($style)'
 
 [docker_context]
 symbol = ""
@@ -184,13 +198,13 @@ disabled = false
 time_format = "%R"
 use_12hr = false
 style = "bg:color_bg1"
-format = '[[  $time ](fg:color_fg0 bg:color_bg1)]($style)'
+format = '[[  $time ](fg:color_text bg:color_bg1)]($style)'
 
 [cmd_duration]
 disabled = false
 min_time = 0
 show_milliseconds = true
-format = '[[ [](fg:color_green bg:color_bg2) $duration ](fg:color_fg0 bg:color_bg2)]($style)'
+format = '[[ [](fg:color_green bg:color_bg2) $duration ](fg:color_text bg:color_bg2)]($style)'
 style= "bg:color_bg2"
 
 [status]
@@ -222,8 +236,7 @@ first_value=$(echo $LA_LOW | grep -o '^[0-9]\\{1,3\\},[0-9]\\{1,2\\}' | sed 's/,
 if (( $(echo "$first_value <= 15.00" | bc -l) )); then
     echo " 󰾆 $first_value"
 fi
-""" # shows output of command
-# detect_files = ['foo'] # can specify filters but wildcards are not supported
+"""
 when = ''
 format = '[$output]($style)'
 style = 'fg:color_green bg:color_bg1'
@@ -237,8 +250,7 @@ first_value=$(echo $LA_HIGH | awk '{print $1}' | sed 's/,/./')
 if (( $(echo "$first_value >= 15.00" | bc -l) )); then
     echo " $LA_HIGH"
 fi
-""" # shows output of command
-# detect_files = ['foo'] # can specify filters but wildcards are not supported
+"""
 when = ''
 format = '[$output]($style)'
 style = 'fg:color_red bg:color_bg1'
