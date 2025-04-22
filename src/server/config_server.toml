@@ -43,17 +43,17 @@ $line_break$character"""
 palette = 'gruvbox_dark'
 
 [palettes.gruvbox_dark]
-color_fg0 = '#fbf1c7'
+color_text = '#fbf1c7'
 color_bg1 = '#3c3836'
 color_bg2 = '#665c54'
-color_blue = '#1b83b0'
+color_blue = '#304c7b'
 color_aqua = '#689d6a'
-color_green = '#6fa246'
-color_orange = '#d65d0e'
-color_purple = '#b16286'
-color_red = '#cc241d'
+color_green = '#36AE7C'
+color_orange = '#e06235'
+color_purple = '#C06C84'
+color_red = '#EB5353'
 color_yellow = '#d79921'
-
+color_deep_blue = '#6256CA'
 [os]
 disabled = false
 style = "bg:color_blue fg:color_fg0"

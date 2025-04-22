@@ -6,14 +6,14 @@ format = """
 [](color_blue)\
 $os\
 ${custom.instance}\
-[](bg:color_dark_red fg:color_blue)\
+[](bg:color_orange fg:color_blue)\
 $username\
-[](bg:color_yellow fg:color_dark_red)\
+[](bg:color_yellow fg:color_orange)\
 $directory\
 [](fg:color_yellow bg:color_aqua)\
 $git_branch\
 $git_status\
-[](fg:color_aqua bg:color_blue)\
+[](fg:color_aqua bg:color_deep_blue)\
 $c\
 $rust\
 $golang\
@@ -23,7 +23,7 @@ $java\
 $kotlin\
 $haskell\
 $python\
-[](fg:color_blue bg:color_bg2)\
+[](fg:color_deep_blue bg:color_bg2)\
 $docker_context\
 $conda\
 [](fg:color_bg2 bg:color_bg1)\
@@ -46,13 +46,14 @@ palette = 'gruvbox_dark'
 color_text = '#fbf1c7'
 color_bg1 = '#3c3836'
 color_bg2 = '#665c54'
-color_blue = '#187498'
+color_blue = '#304c7b'
 color_aqua = '#689d6a'
 color_green = '#36AE7C'
-color_dark_red = '#bf4b2e'
+color_orange = '#e06235'
 color_purple = '#C06C84'
 color_red = '#EB5353'
-color_yellow = '#FF9B17'
+color_yellow = '#d79921'
+color_deep_blue = '#6256CA'
 
 
 
@@ -63,7 +64,7 @@ color_yellow = '#FF9B17'
 # color_blue = '#1b83b0'
 # color_aqua = '#689d6a'
 # color_green = '#6fa246'
-# color_dark_red = '#d65d0e'
+# color_orange = '#d65d0e'
 # color_purple = '#b16286'
 # color_red = '#cc241d'
 # color_yellow = '#d79921'
@@ -97,8 +98,8 @@ Pop = ""
 
 [username]
 show_always = true
-style_user = "bg:color_dark_red fg:color_text"
-style_root = "bg:color_dark_red fg:color_text"
+style_user = "bg:color_orange fg:color_text"
+style_root = "bg:color_orange fg:color_text"
 format = '[ $user ]($style)'
 
 [custom.instance]
@@ -142,47 +143,47 @@ format = '[[($all_status$ahead_behind )](fg:color_text bg:color_aqua)]($style)'
 [nodejs]
 symbol = ""
 style = "bg:color_blue"
-format = '[[ $symbol( $version) ](fg:color_text bg:color_blue)]($style)'
+format = '[[ $symbol( $version) ](fg:color_text bg:color_deep_blue)]($style)'
 
 [c]
 symbol = " "
 style = "bg:color_blue"
-format = '[[ $symbol( $version) ](fg:color_text bg:color_blue)]($style)'
+format = '[[ $symbol( $version) ](fg:color_text bg:color_deep_blue)]($style)'
 
 [rust]
 symbol = ""
 style = "bg:color_blue"
-format = '[[ $symbol( $version) ](fg:color_text bg:color_blue)]($style)'
+format = '[[ $symbol( $version) ](fg:color_text bg:color_deep_blue)]($style)'
 
 [golang]
 symbol = ""
 style = "bg:color_blue"
-format = '[[ $symbol( $version) ](fg:color_text bg:color_blue)]($style)'
+format = '[[ $symbol( $version) ](fg:color_text bg:color_deep_blue)]($style)'
 
 [php]
 symbol = ""
 style = "bg:color_blue"
-format = '[[ $symbol( $version) ](fg:color_text bg:color_blue)]($style)'
+format = '[[ $symbol( $version) ](fg:color_text bg:color_deep_blue)]($style)'
 
 [java]
 symbol = ""
 style = "bg:color_blue"
-format = '[[ $symbol( $version) ](fg:color_text bg:color_blue)]($style)'
+format = '[[ $symbol( $version) ](fg:color_text bg:color_deep_blue)]($style)'
 
 [kotlin]
 symbol = ""
 style = "bg:color_blue"
-format = '[[ $symbol( $version) ](fg:color_text bg:color_blue)]($style)'
+format = '[[ $symbol( $version) ](fg:color_text bg:color_deep_blue)]($style)'
 
 [haskell]
 symbol = ""
 style = "bg:color_blue"
-format = '[[ $symbol( $version) ](fg:color_text bg:color_blue)]($style)'
+format = '[[ $symbol( $version) ](fg:color_text bg:color_deep_blue)]($style)'
 
 [python]
 symbol = ""
 style = "bg:color_purple"
-format = '[[ $symbol( $version)](fg:color_text bg:color_blue)]($style)'
+format = '[[ $symbol( $version)](fg:color_text bg:color_deep_blue)]($style)'
 
 [docker_context]
 symbol = ""
