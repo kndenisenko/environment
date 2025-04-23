@@ -13,7 +13,7 @@ $directory\
 [](fg:color_yellow bg:color_aqua)\
 $git_branch\
 $git_status\
-[](fg:color_aqua bg:color_blue)\
+[](fg:color_aqua bg:color_deep_blue)\
 $c\
 $rust\
 $golang\
@@ -23,7 +23,7 @@ $java\
 $kotlin\
 $haskell\
 $python\
-[](fg:color_blue bg:color_bg2)\
+[](fg:color_deep_blue bg:color_bg2)\
 $docker_context\
 $conda\
 [](fg:color_bg2 bg:color_bg1)\
@@ -46,7 +46,7 @@ palette = 'gruvbox_dark'
 color_text = '#fbf1c7'
 color_bg1 = '#3c3836'
 color_bg2 = '#665c54'
-color_blue = '#304c7b'
+color_blue = '#00769c'
 color_aqua = '#689d6a'
 color_green = '#36AE7C'
 color_orange = '#e06235'
@@ -54,9 +54,24 @@ color_purple = '#C06C84'
 color_red = '#EB5353'
 color_yellow = '#d79921'
 color_deep_blue = '#6256CA'
+
+
+
+# [palettes.gruvbox_dark]
+# color_text = '#fbf1c7'
+# color_bg1 = '#3c3836'
+# color_bg2 = '#665c54'
+# color_blue = '#1b83b0'
+# color_aqua = '#689d6a'
+# color_green = '#6fa246'
+# color_orange = '#d65d0e'
+# color_purple = '#b16286'
+# color_red = '#cc241d'
+# color_yellow = '#d79921'
+
 [os]
 disabled = false
-style = "bg:color_blue fg:color_fg0"
+style = "bg:color_blue fg:color_text"
 
 [os.symbols]
 Windows = "󰍲"
@@ -83,8 +98,8 @@ Pop = ""
 
 [username]
 show_always = true
-style_user = "bg:color_orange fg:color_fg0"
-style_root = "bg:color_orange fg:color_fg0"
+style_user = "bg:color_orange fg:color_text"
+style_root = "bg:color_orange fg:color_text"
 format = '[ $user ]($style)'
 
 [custom.instance]
@@ -92,10 +107,18 @@ disabled = false
 when = ''
 command = "echo instance name"
 format = '[ $output ]($style)'
-style = "fg:color_fg0 bg:color_blue"
+style = "fg:color_text bg:color_blue"
+
+[hostname]
+ssh_only = false
+format = '[$hostname]($style)'
+style = "fg:color_text bg:color_blue"
+aliases = { "Xcodes-MacBook-Pro" = " MacBook Pro M1 " }
+disabled = false
+
 
 [directory]
-style = "fg:color_fg0 bg:color_yellow"
+style = "fg:color_text bg:color_yellow"
 format = "[ $path ]($style)"
 home_symbol = ''
 truncation_length = 3
@@ -111,56 +134,56 @@ truncation_symbol = "…/"
 [git_branch]
 symbol = ""
 style = "bg:color_aqua"
-format = '[[ $symbol $branch ](fg:color_fg0 bg:color_aqua)]($style)'
+format = '[[ $symbol $branch ](fg:color_text bg:color_aqua)]($style)'
 
 [git_status]
 style = "bg:color_aqua"
-format = '[[($all_status$ahead_behind )](fg:color_fg0 bg:color_aqua)]($style)'
+format = '[[($all_status$ahead_behind )](fg:color_text bg:color_aqua)]($style)'
 
 [nodejs]
 symbol = ""
 style = "bg:color_blue"
-format = '[[ $symbol( $version) ](fg:color_fg0 bg:color_blue)]($style)'
+format = '[[ $symbol( $version) ](fg:color_text bg:color_deep_blue)]($style)'
 
 [c]
 symbol = " "
 style = "bg:color_blue"
-format = '[[ $symbol( $version) ](fg:color_fg0 bg:color_blue)]($style)'
+format = '[[ $symbol( $version) ](fg:color_text bg:color_deep_blue)]($style)'
 
 [rust]
 symbol = ""
 style = "bg:color_blue"
-format = '[[ $symbol( $version) ](fg:color_fg0 bg:color_blue)]($style)'
+format = '[[ $symbol( $version) ](fg:color_text bg:color_deep_blue)]($style)'
 
 [golang]
 symbol = ""
 style = "bg:color_blue"
-format = '[[ $symbol( $version) ](fg:color_fg0 bg:color_blue)]($style)'
+format = '[[ $symbol( $version) ](fg:color_text bg:color_deep_blue)]($style)'
 
 [php]
 symbol = ""
 style = "bg:color_blue"
-format = '[[ $symbol( $version) ](fg:color_fg0 bg:color_blue)]($style)'
+format = '[[ $symbol( $version) ](fg:color_text bg:color_deep_blue)]($style)'
 
 [java]
 symbol = ""
 style = "bg:color_blue"
-format = '[[ $symbol( $version) ](fg:color_fg0 bg:color_blue)]($style)'
+format = '[[ $symbol( $version) ](fg:color_text bg:color_deep_blue)]($style)'
 
 [kotlin]
 symbol = ""
 style = "bg:color_blue"
-format = '[[ $symbol( $version) ](fg:color_fg0 bg:color_blue)]($style)'
+format = '[[ $symbol( $version) ](fg:color_text bg:color_deep_blue)]($style)'
 
 [haskell]
 symbol = ""
 style = "bg:color_blue"
-format = '[[ $symbol( $version) ](fg:color_fg0 bg:color_blue)]($style)'
+format = '[[ $symbol( $version) ](fg:color_text bg:color_deep_blue)]($style)'
 
 [python]
 symbol = ""
-style = "bg:color_blue"
-format = '[[ $symbol( $version) ](fg:color_fg0 bg:color_blue)]($style)'
+style = "bg:color_purple"
+format = '[[ $symbol( $version)](fg:color_text bg:color_deep_blue)]($style)'
 
 [docker_context]
 symbol = ""
@@ -176,19 +199,19 @@ disabled = false
 time_format = "%R"
 use_12hr = false
 style = "bg:color_bg1"
-format = '[[  $time ](fg:color_fg0 bg:color_bg1)]($style)'
+format = '[[  $time ](fg:color_text bg:color_bg1)]($style)'
 
 [cmd_duration]
 disabled = false
 min_time = 0
 show_milliseconds = true
-format = '[[ [](fg:color_green bg:color_bg2) $duration ](fg:color_fg0 bg:color_bg2)]($style)'
+format = '[[ [](fg:color_green bg:color_bg2) $duration ](fg:color_text bg:color_bg2)]($style)'
 style= "bg:color_bg2"
 
 [status]
 style = 'bg:color_bg1'
 symbol = ' [x ](fg:color_red bg:color_bg1)'
-success_symbol = ' [ ](fg:color_green bg:color_bg1)'
+success_symbol = ' [](fg:color_green bg:color_bg1)'
 not_found_symbol = ' [x ](fg:color_red bg:color_bg1)'
 sigint_symbol = ' [ ](fg:color_red bg:color_bg1)'
 format = '[$symbol$common_meaning$signal_name$maybe_int ]($style)'
@@ -203,43 +226,48 @@ format ='$symbol[$ram_pct ram used: $ram ]($style)'
 symbol = '[ 󰓅 ]($style)'
 style = 'fg:color_red bg:color_bg1'
 
+
+
 [custom.loadavg_low]
 command = """
-# Get first LA from /proc/loadavg
-first_value_min=$(awk '{print $1}' /proc/loadavg | tr ',' '.')
+loadavg=$(awk '{print $1, $2, $3}' /proc/loadavg)
+first_value=$(echo $loadavg | awk '{print $1}' | tr ',' '.')
 
-# Low threshold
-threshold_low=1.0
+# Set threshold
+threshold=la_threshold
 
-# Compare with awk
-if awk "BEGIN {exit !($first_value_min < $threshold_low)}"; then
-    echo " 󰾆 $first_value_min"
+# Compare LA with threshold
+if awk "BEGIN {exit !($first_value < $threshold)}"; then
+    # If LA < threshold - show only LA1
+    printf "󰾆 $first_value"
+else
+
 fi
 """
 when = ''
-format = '[$output]($style)'
+format = '[$output ]($style)'
 style = 'fg:color_green bg:color_bg1'
 
 [custom.loadavg_high]
 command = """
-# Get ALL LA /proc/loadavg
-loadavg_max=$(awk '{print $1, $2, $3}' /proc/loadavg)
+loadavg=$(awk '{print $1, $2, $3}' /proc/loadavg)
+first_value=$(echo $loadavg | awk '{print $1}' | tr ',' '.')
 
-# Get first LA from loadavg_max
-first_value_max=$(echo $loadavg_max | awk '{print $1}' | tr ',' '.')
+# Set threshold
+threshold=la_threshold
 
-# Max threshold
-threshol_max=1.00
+# Compare LA with threshold
+if awk "BEGIN {exit !($first_value > $threshold)}"; then
+    # If LA > threshold - show only LA1, LA5 LA15
+    printf "  $loadavg"
+else
 
-# Compare with awk
-if awk "BEGIN {exit !($first_value_max > $ththreshol_maxreshold)}"; then
-    # If first param more than Max threshold -> print all LA params
-    echo "$loadavg_max"
 fi
 """
 when = ''
-format = '[$output]($style)'
+format = '[$output ]($style)'
 style = 'fg:color_red bg:color_bg1'
+
 
 [line_break]
 disabled = false
