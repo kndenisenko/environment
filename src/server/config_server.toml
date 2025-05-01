@@ -51,7 +51,7 @@ color_aqua = '#689d6a'
 color_green = '#36AE7C'
 color_orange = '#e06235'
 color_purple = '#C06C84'
-color_red = '#EB5353'
+color_red = '#c83036'
 color_yellow = '#d79921'
 color_deep_blue = '#6256CA'
 
@@ -215,7 +215,6 @@ success_symbol = ' [](fg:color_green bg:color_bg1)'
 not_found_symbol = ' [x ](fg:color_red bg:color_bg1)'
 sigint_symbol = ' [ ](fg:color_red bg:color_bg1)'
 format = '[$symbol$common_meaning$signal_name$maybe_int ]($style)'
-
 map_symbol = true
 disabled = false
 
@@ -226,15 +225,13 @@ format ='$symbol[$ram_pct ram used: $ram ]($style)'
 symbol = '[ 󰓅 ]($style)'
 style = 'fg:color_red bg:color_bg1'
 
-
-
 [custom.loadavg_low]
 command = """
 loadavg=$(awk '{print $1, $2, $3}' /proc/loadavg)
 first_value=$(echo $loadavg | awk '{print $1}' | tr ',' '.')
 
 # Set threshold
-threshold=la_threshold
+threshold=$(nproc --all)
 
 # Compare LA with threshold
 if awk "BEGIN {exit !($first_value < $threshold)}"; then
@@ -254,7 +251,7 @@ loadavg=$(awk '{print $1, $2, $3}' /proc/loadavg)
 first_value=$(echo $loadavg | awk '{print $1}' | tr ',' '.')
 
 # Set threshold
-threshold=la_threshold
+threshold=$(nproc --all)
 
 # Compare LA with threshold
 if awk "BEGIN {exit !($first_value > $threshold)}"; then

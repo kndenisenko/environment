@@ -12,9 +12,9 @@
       prompt: "Enter instance name for this server"
       private: no
 
-    - name: "la_threshold"
-      prompt: "Enter threshold of Load average values \n Usually it means CPU count \n Or hit Enter to hide LA in Starship \n"
-      private: no
+    # - name: "la_threshold"
+    #   prompt: "Enter threshold of Load average values \n Usually it means CPU count \n Or hit Enter to hide LA in Starship \n"
+    #   private: no
 
     - name: "git_username"
       prompt: "Enter name for git"
@@ -146,12 +146,12 @@
         replace: 'command = "echo {{instance_name}}"'
       tags: change
     
-    - name: change LA threshold in starship settings
-      ansible.builtin.replace:
-        path: /home/{{username}}/.config/starship.toml
-        regexp: 'threshold=la_threshold'
-        replace: 'threshold={{la_threshold}}'
-      tags: change
+    # - name: change LA threshold in starship settings
+    #   ansible.builtin.replace:
+    #     path: /home/{{username}}/.config/starship.toml
+    #     regexp: 'threshold=la_threshold'
+    #     replace: 'threshold={{la_threshold}}'
+    #   tags: change
 
     - name: setting up Git username
       ansible.builtin.shell:
